@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Website </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="main">
+            <h1>Welcome To Typing Speed Test </h1>
+            <h2 id="msg"></h2>
+            <br>
+            <textarea  id="myword" cols="100" rows="10" placeholder="Type Here !! "></textarea>
+            <br>
+            <button id="btn" class="mainbtn">Start</button>
+        </div>
+    </div>
+    <script>
+        const setOfWords = [
+            "My name is Anil kumar and I am a software Engineer." ,
+            "TypingClub is the most accessible typing program available.",
+            "This one is a typing test that expresses your typing skills in words per minute.",
+            "Try to get faster and faster every time.",
+            "The first step to learn to type fast and increase your typing speed is to take a timed typing test!.",
+            "You should have a solid grasp of all the letters in the alphabet.",
+            "Our tool is a free typing speed test with a WPM score, but it can be also used as a typing speed test for kids.",
+            "Type a lot, type tests, and practice typing tests.",
+            " it's a Online typing test engine where you can judge your typing speed.",
+            "There is no requirement to download or install any software or plugin, just go to onlinetyping.org and start typing." ];
+
+        const msg = document.getElementById('msg');
+        const typeword = document.getElementById('myword');
+        const btn = document.getElementById('btn');
+        let startTime , endTime ; 
+
+       const  playGame = () => {
+            let randomNumber = Math.floor(Math.random()*setOfWords.length);
+             msg.innerText = setOfWords[randomNumber];
+             let date = new Date();
+             startTime = date.getTime();
+             btn.innerText = "Done";
+
+
+        }
+
+        const endPlay = () =>{
+            let date = new Date();
+            endTime = date.getTime();
+            let totalTime = ((endTime - startTime)/1000);
+            console.log(totalTime);
+
+            let totalStr = typeword.value;
+            let wordCount  = wordCounter(totalStr);
+            
+            let speed = Math.floor((wordCount / totalTime)*60);
+            
+            let finalMsg = "You typed total at " + speed + " words per menutes  ";
+            finalMsg += compareWords(msg.innerText , totalStr);
+            
+            msg.innerText = finalMsg;
+
+        }
+
+        const compareWords =(str1, str2) =>
+        {
+            let words1 = str1.split(" ");
+            let words2 = str2.split(" ");
+            let cnt =0;
+
+            words1.forEach(function(item, index){
+                if(item == words2[index]){
+                    cnt++;
+                }
+            })
+
+            let errorWords = ( words1.length - cnt );
+            return (cnt + " correct out of " + words1.length  + " words and total number of error are " + errorWords + " .");
+            
+
+        }
+
+        const wordCounter = (str) => {
+            let response = str.split(" ").length;
+            console.log(response);
+            return response;
+
+        }
+
+        btn.addEventListener('click' , function(){
+           
+            if(this.innerText == 'Start')
+            {
+             
+                typeword.disabled = false;
+                playGame();
+ 
+            }
+            else if(this.innerText == "Done")
+            {
+                typeword.disabled = true;
+                btn.innerText = "Start";
+                endPlay();
+
+
+            }
+         
+        })
+    </script>
+</body>
+</html>
